@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-const { Header, Content, Footer, Sider } = Layout;
+import {Layout} from 'antd';
+const { Header} = Layout;
 
 const Navbar = () => {
     return (
