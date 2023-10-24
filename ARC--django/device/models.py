@@ -3,7 +3,7 @@ from django.db import models
 class Device(models.Model):
     device_ip = models.CharField(max_length=255, null=True)
     device_name = models.CharField(max_length=255, null=True)
-    extra = models.JSONField(null=True)
+    extra = models.TextField(null=True, blank=True)
     is_on = models.BooleanField(default=False)
 
     def __str__(self):

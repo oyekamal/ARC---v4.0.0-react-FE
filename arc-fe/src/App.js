@@ -9,6 +9,7 @@ import {
 import { Breadcrumb, Card, Layout, theme } from 'antd';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
+import Devices from './components/Devices/Devices';
 const { Content, Footer } = Layout;
 
 function getItem(label, key, icon, children) {
@@ -46,14 +47,7 @@ const App = () => {
       <Layout>
         <Navbar />
         <Card style={{ margin: '0 16px' }}>
-          <h1>Device Data:</h1>
-          <ul>
-            {deviceData.map((device) => (
-              <li key={device.id}>
-                {device.device_name} - {device.device_ip}, Status: {device.is_on ? 'On' : 'Off'}
-              </li>
-            ))}
-          </ul>
+        <Devices/>
         </Card>
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©2023 Created by Ant UED
