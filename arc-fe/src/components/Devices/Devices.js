@@ -46,7 +46,22 @@ function Devices() {
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record) => record.id === editingKey;
 
+  const toggleSwitch = async (key, isOn) => {
+    // Update the device status locally
+    const newData = deviceData.map((item) =>
+      item.id === key ? { ...item, is_on: isOn } : item
+    );
 
+    // Send the API request to update the device status
+    try {
+      const response = await EditDeviceData(key, { is_on: isOn });
+      console.log('Device status updated:', response);
+
+      setDeviceData(newData);
+    } catch (error) {
+      console.error('Error updating device status:', error);
+    }
+  };
   const edit = (record) => {
     form.setFieldsValue({
       device_name: '',
@@ -127,9 +142,12 @@ function Devices() {
       title: 'Status',
       dataIndex: 'is_on',
       key: 'is_on',
-      editable: false,
-
-      render: (isOn) =>  <Switch defaultChecked={isOn} />,
+      render: (isOn, record) => (
+        <Switch
+          checked={isOn}
+          onChange={(checked) => toggleSwitch(record.id, checked)}
+        />
+      ),
     },
     {
       title: 'operation',
