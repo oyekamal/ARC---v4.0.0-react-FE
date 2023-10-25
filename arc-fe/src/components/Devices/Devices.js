@@ -4,7 +4,7 @@ import CustomTable from '../Common/Table';
 import { fetchDeviceData, EditDeviceData, deleteDeviceData } from './devicesAPI';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import { Switch } from 'antd';
-import {EditOutlined} from '@ant-design/icons';
+import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
 const EditableCell = ({
   editing,
   dataIndex,
@@ -48,15 +48,11 @@ function Devices() {
   const deleteDevice = async (key) => {
     try {
       // Send the API request to delete the device
-
-      // Remove the deleted device from the local data
       setDeviceData(deviceData.filter((item) => item.id !== key));
-
-      
       await deleteDeviceData(key);
       console.log('Device data deleted:', key);
 
-
+      // Remove the deleted device from the local data
       
     } catch (error) {
       console.error('Error deleting device data:', error);
@@ -200,7 +196,7 @@ function Devices() {
                   title="Sure to delete?"
                   onConfirm={() => deleteDevice(record.id)}
                 >
-                  <a>Delete</a>
+                  <DeleteOutlined />
                 </Popconfirm>
               </>
             )}
