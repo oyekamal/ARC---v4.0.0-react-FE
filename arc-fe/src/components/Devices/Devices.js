@@ -1,7 +1,7 @@
 // Devices/Devices.js
 import React, { useState, useEffect } from 'react';
 import CustomTable from '../Common/Table';
-import { fetchDeviceData, EditDeviceData } from './devicesAPI';
+import { fetchDeviceData, EditDeviceData, deleteDeviceData } from './devicesAPI';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import { Switch } from 'antd';
 import {EditOutlined} from '@ant-design/icons';
@@ -45,6 +45,23 @@ function Devices() {
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState('');
   const isEditing = (record) => record.id === editingKey;
+  const deleteDevice = async (key) => {
+    try {
+      // Send the API request to delete the device
+
+      // Remove the deleted device from the local data
+      setDeviceData(deviceData.filter((item) => item.id !== key));
+
+      
+      await deleteDeviceData(key);
+      console.log('Device data deleted:', key);
+
+
+      
+    } catch (error) {
+      console.error('Error deleting device data:', error);
+    }
+  };
 
   const toggleSwitch = async (key, isOn) => {
     // Update the device status locally
@@ -154,26 +171,40 @@ function Devices() {
       dataIndex: 'operation',
       render: (_, record) => {
         const editable = isEditing(record);
-        return editable ? (
+        return (
           <span>
-            <Typography.Link
-              onClick={() => save(record.id)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
-            </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
+            {editable ? (
+              <>
+                <Typography.Link
+                  onClick={() => save(record.id)}
+                  style={{
+                    marginRight: 8,
+                  }}
+                >
+                  Save
+                </Typography.Link>
+                <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+                  <a>Cancel</a>
+                </Popconfirm>
+              </>
+            ) : (
+              <>
+                <Typography.Link
+                  disabled={editingKey !== ''}
+                  onClick={() => edit(record)}
+                  style={{ marginRight: 8 }}
+                >
+                  <EditOutlined />
+                </Typography.Link>
+                <Popconfirm
+                  title="Sure to delete?"
+                  onConfirm={() => deleteDevice(record.id)}
+                >
+                  <a>Delete</a>
+                </Popconfirm>
+              </>
+            )}
           </span>
-        ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={() => {
-            edit(record)
-          }}>
-            <EditOutlined />
-          </Typography.Link>
         );
       },
     },
