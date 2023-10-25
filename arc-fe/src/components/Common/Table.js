@@ -1,6 +1,7 @@
 // Common/Table.js
 import React from 'react';
 import { Table } from 'antd';
+import { Switch } from 'antd';
 
 function CustomTable({ data }) {
   const columns = [
@@ -23,7 +24,14 @@ function CustomTable({ data }) {
       title: 'Status',
       dataIndex: 'is_on',
       key: 'is_on',
-      render: (isOn) => (isOn ? 'On' : 'Off'),
+
+      render: (isOn) =>  <Switch checked={isOn}/>,
+    },
+    {
+      title: 'edit',
+      dataIndex: 'edit',
+      key: 'edit',
+      // render: (isOn) => (isOn ? 'On' : 'Off'),
     },
   ];
 
