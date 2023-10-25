@@ -4,7 +4,7 @@ import CustomTable from '../Common/Table';
 import { fetchDeviceData, EditDeviceData } from './devicesAPI';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import { Switch } from 'antd';
-
+import {EditOutlined} from '@ant-design/icons';
 const EditableCell = ({
   editing,
   dataIndex,
@@ -92,13 +92,13 @@ function Devices() {
         setDeviceData(newData);
         // Send the API request to update the device data
         EditDeviceData(key, row) // Pass the 'key' (ID) and 'row' (updated data) to the API function
-        .then((response) => {
-          // Handle the API response, if needed
-          console.log('Device data updated:', response);
-        })
-        .catch((error) => {
-          console.error('Error updating device data:', error);
-        });
+          .then((response) => {
+            // Handle the API response, if needed
+            console.log('Device data updated:', response);
+          })
+          .catch((error) => {
+            console.error('Error updating device data:', error);
+          });
         setEditingKey('');
       } else {
         newData.push(row);
@@ -170,8 +170,9 @@ function Devices() {
           </span>
         ) : (
           <Typography.Link disabled={editingKey !== ''} onClick={() => {
-            edit(record)}}>
-            Edit
+            edit(record)
+          }}>
+            <EditOutlined />
           </Typography.Link>
         );
       },
@@ -198,21 +199,21 @@ function Devices() {
     <div>
       <h1>Device Data:</h1>
       <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={deviceData}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
-    </Form>    </div>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={deviceData}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+        />
+      </Form>    </div>
   );
 }
 
